@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">JetpackComposeBasic</string>
+    <string name="app_icon">App icon</string>
+    <string name="quiz">Quiz</string>
+    <string name="high_score">High Score</string>
+    <string name="_100">100</string>
+    <string name="start">Start</string>
+</resources>
