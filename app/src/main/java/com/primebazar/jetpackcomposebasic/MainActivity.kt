@@ -5,17 +5,19 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
+import androidx.compose.material.Card
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -30,7 +32,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            UserCard()
+            UserList()
         }
     }
 }
@@ -39,7 +41,7 @@ class MainActivity : ComponentActivity() {
 fun Title() {
     val context = LocalContext.current
     Text(
-        text = "Prime IT",
+        text = "Hello Compose!",
         fontSize = 32.sp,
         fontFamily = FontFamily.Cursive,
         textAlign = TextAlign.Center,
@@ -51,35 +53,51 @@ fun Title() {
 }
 
 @Composable
+fun UserList() {
+    Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+        for (i in 1..12) {
+            UserCard()
+        }
+    }
+}
+
+@Composable
 fun UserCard() {
-    Row(
+    Card(
+        elevation = 4.dp,
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .padding(12.dp)
-            .border(width = 1.dp, color = Color.Gray)
-            .padding(12.dp)
+            .padding(horizontal = 12.dp, vertical = 6.dp)
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.img),
-            contentDescription = "",
-            contentScale = ContentScale.Crop,
+        Row(
             modifier = Modifier
-                .size(120.dp)
-                .clip(CircleShape)
-        )
-
-        Column(
-            Modifier
-                .padding(horizontal = 10.dp)
                 .fillMaxWidth()
+                .wrapContentHeight()
+                .padding(12.dp)
         ) {
-            Text(text = "John Doe")
-            Text(text = "Android Developer")
-            Button(onClick = {
+            Image(
+                painter = painterResource(id = R.drawable.img),
+                contentDescription = "",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .size(120.dp)
+                    .clip(CircleShape)
+            )
 
-            }) {
-                Text(text = "View Profile")
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(text = "John Doe", fontSize = 20.sp)
+                Text(text = "Android Developer", fontSize = 16.sp)
+                Button(onClick = {
+
+                }) {
+                    Text(text = "View Profile")
+                }
             }
         }
     }
@@ -93,6 +111,6 @@ fun Preview() {
             .fillMaxWidth()
             .fillMaxHeight()
     ) {
-        UserCard()
+        UserList()
     }
 }
