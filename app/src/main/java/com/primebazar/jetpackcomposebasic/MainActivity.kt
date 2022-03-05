@@ -7,9 +7,9 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.Surface
@@ -37,6 +37,25 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+data class User(
+    val id: Int,
+    val name: String,
+    val designation: String,
+)
+
+val userList = listOf(
+    User(1, "Abu Raihan Rony", "Android Developer"),
+    User(2, "Tanimul Islam", "Android Developer"),
+    User(3, "Kawser Ahmed", "Android Developer"),
+    User(4, "Shakil Ahmed", "Digital Marketing Expert"),
+    User(5, "Hasibul Hasan Shanto", "Graphic Designer"),
+    User(6, "Noyon Sarkar", "Digital Marketing Expert"),
+    User(7, "Kamrul Hasan", "Web Designer"),
+    User(8, "Ariful Islam", "Web Designer"),
+    User(9, "Sojol Islam", "Web Designer"),
+    User(10, "XYZ", "Web Designer")
+)
+
 @Composable
 fun Title() {
     val context = LocalContext.current
@@ -54,15 +73,22 @@ fun Title() {
 
 @Composable
 fun UserList() {
-    Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+    /*Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
         for (i in 1..12) {
             UserCard()
+        }
+    }*/
+
+    LazyColumn {
+        items(userList) { user ->
+            UserCard(user)
         }
     }
 }
 
 @Composable
-fun UserCard() {
+fun UserCard(user: User) {
+    val context = LocalContext.current
     Card(
         elevation = 4.dp,
         modifier = Modifier
@@ -91,12 +117,12 @@ fun UserCard() {
                     .wrapContentHeight(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = "John Doe", fontSize = 20.sp)
-                Text(text = "Android Developer", fontSize = 16.sp)
+                Text(text = user.name, fontSize = 20.sp)
+                Text(text = user.designation, fontSize = 16.sp)
                 Button(onClick = {
-
+                    Toast.makeText(context, "${user.id}", Toast.LENGTH_SHORT).show()
                 }) {
-                    Text(text = "View Profile")
+                    Text(text = "Show ID")
                 }
             }
         }
